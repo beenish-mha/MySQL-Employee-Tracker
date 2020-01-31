@@ -34,7 +34,22 @@ function askQuestions(){
         choices: [
             "Add departments",
             "Add roles",
-            "Add employees"
+            "Add employees",
+            "View departments",
+            "View roles",
+            "View employees",
+            "Update departments",
+            "Update roles",
+            "Update employees",
         ]
     })
+    .then (function(answer){
+        switch (answer.action){
+            case "Add employees":
+                check(answer.action);
+        }
+    })
+}
+function check(res){
+    console.log("answer is right " + res)
 }
