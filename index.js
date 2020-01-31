@@ -6,13 +6,35 @@ var connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "Beemysql4", 
-    database: "ice_creamDB",
+    database: "employee_tracker",
   });
 
 connection.connect(function(err,){
     if (err) {
         console.log("error");
     }else {
-        console.log("connection has been made");
+        seeTables();
+        askQuestions();
     }
 })
+
+function seeTables(){
+    connection.query("SELECT * FROM employee", function(err,result){
+        if (err) throw err;
+    console.log(result[0].last_name);
+    connection.end();
+    })
+}
+
+function askQuestions(){
+    inquirer.prompt ({
+        name: "action",
+        type: "rawlist",
+        message: "What whould you like to do?",
+        choices: [
+            "Add departments",
+            "Add roles",
+            "Add employees"
+        ]
+    })
+}
