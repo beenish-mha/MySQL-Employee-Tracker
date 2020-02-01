@@ -26,7 +26,7 @@ CREATE TABLE role (
     VALUES ("Software Engineer", 20000, 1);
 
     INSERT INTO role (title, salary, department_id)
-    VALUES ("Software Engineer", 40000, 1);
+    VALUES ("full stack", 40000, 1);
     
 
 CREATE TABLE employee (

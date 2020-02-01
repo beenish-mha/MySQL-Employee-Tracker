@@ -85,7 +85,7 @@ function viewRole(){
     connection.query("SELECT * FROM role", function(err,result){
         if (err) throw err;
         for (var i = 0; i < result.length; i++){
-     console.table (result[i].title);
+     console.table (result[i].id + " " +result[i].title);
         }
     connection.end();
     })     
@@ -103,11 +103,36 @@ function addEmp(){
         }
       ])
       .then (answer => {
-          console.log(answer.first_name + " "+ answer.last_name)
+        connection.query("SELECT * FROM role", function(err,result){
+            if (err) throw err;
+            var arr = [];
+          
+            for(var i = 0; i<result.length; i++){
+                 arr.push(result[i].title)    
+            }
+        
+        inquirer.prompt ({
+            name: "roleid",
+            type: "rawlist",
+            message: "Select the Role",              
+            choices:  arr
+            })
+
+            .then ( (roleId) => {
+                //console.log(answer.first_name + " "+ answer.last_name)
+                console.log(roleId.roleid + " this is role id")
+          connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ('"+answer.first_name+"', '"+answer.last_name+"', 1, null)" , 
+          function(err, result){
+            if (err) throw err;
+            connection.end();
+            //viewEmp()
+        })
+            })
+        
+        })     
+
+          
       })
       
-    //connection.query("INSERT INTO employee VALUES (first_name, second_name, role_id, manager_id" , function(err, result){
-      //  if (err) throw err;
-        
-    //})
+    
 }
