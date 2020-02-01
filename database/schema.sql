@@ -25,6 +25,10 @@ CREATE TABLE role (
     INSERT INTO role (title, salary, department_id)
     VALUES ("Software Engineer", 20000, 1);
 
+    INSERT INTO role (title, salary, department_id)
+    VALUES ("Software Engineer", 40000, 1);
+    
+
 CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
@@ -36,4 +40,7 @@ CREATE TABLE employee (
 );
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("beenish", "Butt", 1, null)
+VALUES ("beenish", "Butt", 1, null);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Ayra", "Khurram", 2, null);

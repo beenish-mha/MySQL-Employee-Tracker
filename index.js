@@ -13,7 +13,7 @@ connection.connect(function(err,){
     if (err) {
         console.log("error");
     }else {
-        seeTables();
+        //seeTables();
         askQuestions();
     }
 })
@@ -21,7 +21,9 @@ connection.connect(function(err,){
 function seeTables(){
     connection.query("SELECT * FROM employee", function(err,result){
         if (err) throw err;
-    console.log(result[0].last_name);
+        for (var i = 0; i < result.length; i++){
+    console.log(result[i].first_name);
+        }
     connection.end();
     })
 }
@@ -45,11 +47,67 @@ function askQuestions(){
     })
     .then (function(answer){
         switch (answer.action){
+            case "View employees":
+                viewEmp();
+
+            case "View departments":
+                viewDep();
+
+            case "View roles":
+                viewRole();
+
             case "Add employees":
-                check(answer.action);
+                addEmp();
         }
     })
 }
-function check(res){
-    console.log("answer is right " + res)
+function viewEmp(){   
+    connection.query("SELECT * FROM employee", function(err,result){
+        if (err) throw err;
+        for (var i = 0; i < result.length; i++){
+     console.table (result[i].first_name + " " + result[i].last_name);
+        }
+    connection.end();
+    })     
+}
+
+function viewDep(){   
+    connection.query("SELECT * FROM department", function(err,result){
+        if (err) throw err;
+        for (var i = 0; i < result.length; i++){
+     console.table (result[i].department_name);
+        }
+    connection.end();
+    })     
+}
+
+function viewRole(){   
+    connection.query("SELECT * FROM role", function(err,result){
+        if (err) throw err;
+        for (var i = 0; i < result.length; i++){
+     console.table (result[i].title);
+        }
+    connection.end();
+    })     
+}
+
+function addEmp(){
+    const employee = inquirer.prompt([
+        {
+         name: "first_name",
+          message: "What is the employee's first name?"
+        },
+        {
+          name: "last_name",
+          message: "What is the employee's last name?"
+        }
+      ])
+      .then (answer => {
+          console.log(answer.first_name + " "+ answer.last_name)
+      })
+      
+    //connection.query("INSERT INTO employee VALUES (first_name, second_name, role_id, manager_id" , function(err, result){
+      //  if (err) throw err;
+        
+    //})
 }
