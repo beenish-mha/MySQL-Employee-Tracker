@@ -16,17 +16,6 @@ connection.connect(function(err,){
         askQuestions();
     }
 })
-
-// function seeTables(){
-//     connection.query("SELECT * FROM employee", function(err,result){
-//         if (err) throw err;
-//         for (var i = 0; i < result.length; i++){
-//     console.log(result[i].first_name);
-//         }
-//     connection.end();
-//     })
-// }
-
 function askQuestions(){
     inquirer.prompt ({
         name: "action",
@@ -71,7 +60,7 @@ function viewEmp(){
     connection.query("SELECT * FROM employee", function(err,result){
         if (err) throw err;
         for (var i = 0; i < result.length; i++){
-     console.table(result[i].first_name + " " + result[i].last_name + " " + result[i].role_id);
+            console.table(result[i].first_name + " " + result[i].last_name + " " + result[i].role_id);
         }
     connection.end();
     })     
@@ -232,7 +221,6 @@ function updateEmp(){
                     connection.query(("UPDATE employee SET role_id = "+roId+" WHERE id = "+empId), 
                      function(err, result){
                     if (err) throw err; 
-                   // console.log(answers.first_name + " "+ answers.last_name +" updated");
                     viewEmp();
                      })
                 })

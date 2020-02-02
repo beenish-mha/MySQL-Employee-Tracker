@@ -11,7 +11,11 @@ CREATE TABLE department (
 );
 
 INSERT INTO department (department_name)
-VALUES ("computers");
+    VALUES ("Computer SCIENCE ");
+INSERT INTO department (department_name)
+    VALUES ("Maths");
+INSERT INTO department (department_name)
+    VALUES ("Commerce");
 
 CREATE TABLE role (
     id INT NOT NULL AUTO_INCREMENT,
@@ -19,14 +23,16 @@ CREATE TABLE role (
     salary DECIMAL NOT NULL,
     department_id INT NOT NULL, 
     PRIMARY KEY (id),
-    -- FOREIGN KEY (department_id) REFERENCES department(id) 
+    FOREIGN KEY (department_id) REFERENCES department(id) 
     );
 
     INSERT INTO role (title, salary, department_id)
-    VALUES ("Software Engineer", 20000, 1);
-
+        VALUES ("Software Engineer", 20000, 1);
     INSERT INTO role (title, salary, department_id)
-    VALUES ("full stack", 40000, 1);
+        VALUES ("full stack", 40000, 1);
+    INSERT INTO role (title, salary, department_id)
+        VALUES ("Consultant", 80000, 3);
+
     
 
 CREATE TABLE employee (
@@ -36,11 +42,14 @@ CREATE TABLE employee (
     role_id INT NOT NULL,
     manager_id INT,
     PRIMARY KEY (id),
-    -- FOREIGN KEY (role_id) REFERENCES role(id)
+    FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("beenish", "Butt", 1, null);
-
+    VALUES ("Beenish", "Butt", 1, null);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Ayra", "Khurram", 2, null);
+    VALUES ("Ayra", "Khurram", 3, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    VALUES ("AbdulHadi", "Khurram", 2, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    VALUES ("Abdul Muhaymin", "Khurram", 2, null);
