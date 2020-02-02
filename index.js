@@ -108,7 +108,7 @@ function addEmp(){
             var arr = [];
           
             for(var i = 0; i<result.length; i++){
-                 arr.push(result[i].title)    
+                 arr.push(result[i].id+ " " +result[i].title)    
             }
         
         inquirer.prompt ({
@@ -118,14 +118,14 @@ function addEmp(){
             choices:  arr
             })
 
-            .then ( (roleId) => {
-                //console.log(answer.first_name + " "+ answer.last_name)
-                console.log(roleId.roleid + " this is role id")
-          connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ('"+answer.first_name+"', '"+answer.last_name+"', 1, null)" , 
-          function(err, result){
-            if (err) throw err;
-            connection.end();
-            //viewEmp()
+            .then ( (rId) => {               
+                var roleId =  parseInt(rId.roleid.charAt(0))
+                connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ('"+answer.first_name+"', '"+answer.last_name+"', "+roleId+", null)" , 
+                function(err, result){
+                if (err) throw err;
+                //connection.end();
+            
+                viewEmp()
         })
             })
         
