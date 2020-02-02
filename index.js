@@ -13,20 +13,19 @@ connection.connect(function(err,){
     if (err) {
         console.log("error");
     }else {
-        //seeTables();
         askQuestions();
     }
 })
 
-function seeTables(){
-    connection.query("SELECT * FROM employee", function(err,result){
-        if (err) throw err;
-        for (var i = 0; i < result.length; i++){
-    console.log(result[i].first_name);
-        }
-    connection.end();
-    })
-}
+// function seeTables(){
+//     connection.query("SELECT * FROM employee", function(err,result){
+//         if (err) throw err;
+//         for (var i = 0; i < result.length; i++){
+//     console.log(result[i].first_name);
+//         }
+//     connection.end();
+//     })
+// }
 
 function askQuestions(){
     inquirer.prompt ({
@@ -40,7 +39,6 @@ function askQuestions(){
             "View departments",
             "View roles",
             "View employees",
-            "Update departments",
             "Update roles",
             "Update employees",
         ]
@@ -48,22 +46,25 @@ function askQuestions(){
     .then (function(answer){
         switch (answer.action){
             case "View employees":
-                viewEmp();
+                return viewEmp();
 
             case "View departments":
-                viewDep();
+                return viewDep();
 
             case "View roles":
-                viewRole();
+                return viewRole();
 
             case "Add employees":
-                addEmp();
+                return addEmp();
 
             case "Add departments":
-                addDepartment();
+                return addDepartment();
 
             case "Add roles":
-                addRole();
+                return addRole();
+            
+            case "Update employees":
+                return updateEmp();
         }
     })
 }
@@ -71,7 +72,7 @@ function viewEmp(){
     connection.query("SELECT * FROM employee", function(err,result){
         if (err) throw err;
         for (var i = 0; i < result.length; i++){
-     console.table (result[i].first_name + " " + result[i].last_name);
+     console.table(result[i].first_name + " " + result[i].last_name + " " + result[i].role_id);
         }
     connection.end();
     })     
@@ -98,7 +99,7 @@ function viewRole(){
 }
 
 function addEmp(){
-    const employee = inquirer.prompt([
+     inquirer.prompt([
         {
          name: "first_name",
           message: "What is the employee's first name?"
@@ -109,10 +110,10 @@ function addEmp(){
         }
       ])
       .then (answer => {
-        connection.query("SELECT * FROM role", function(err,result){
+        var arr = [];
+           connection.query("SELECT * FROM role", function(err,result){
             if (err) throw err;
-            var arr = [];
-          
+           
             for(var i = 0; i<result.length; i++){
                  arr.push(result[i].id+ " " +result[i].title)    
             }
@@ -139,12 +140,11 @@ function addEmp(){
 
 function addDepartment(){
 
-    inquirer
-        .prompt([
-            {
+    inquirer.prompt([
+        {
             name: "depName",
             message: "Which Department you want to add?",
-            },
+        },
         ])
     .then(dName => {
         const departmentName = dName.depName;
@@ -159,7 +159,7 @@ function addDepartment(){
 }
 
 function addRole(){
-    const role = inquirer.prompt([
+     inquirer.prompt([
         {
          name: "role_title",
           message: "What is the title of the role?"
@@ -197,4 +197,49 @@ function addRole(){
         })     
 
     })
+}
+
+function updateEmp(){
+    const empArr = []
+    connection.query("SELECT * FROM employee", function(err,result){
+        if (err) throw err;
+        for (var i = 0; i < result.length; i++){
+            empArr.push(result[i].id +" "+ result[i].first_name + " " + result[i].last_name)
+        }
+        inquirer.prompt ({
+            name: "empid",
+            type: "rawlist",
+            message: "Select the employee you want to update",              
+            choices:  empArr
+        })
+        .then ( (eId) => {               
+            var empId =  parseInt(eId.empid.charAt(0))
+            
+            inquirer.prompt([
+                {
+                    name: "first_name",
+                    message: "What is the First name?"
+                },
+                {
+                    name: "last_name",
+                    message: "What is the Last name?"
+                },
+                {
+                    name: "role_id",
+                    message: "Enter the Role-Id"
+                }
+
+              ])
+                .then ( (answers) => {
+                    const roId = parseInt(answers.role_id)
+                    connection.query(("UPDATE employee SET first_name = '"+answers.first_name+"', last_name = '"+answers.last_name+"', role_id = "+roId+" WHERE id = "+empId), 
+                     function(err, result){
+                    if (err) throw err; 
+                    console.log(answers.first_name + " "+ answers.last_name +" updated");
+                    viewEmp();
+                })
+            })
+            
+        })
+    }) 
 }
