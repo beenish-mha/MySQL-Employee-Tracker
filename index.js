@@ -61,6 +61,9 @@ function askQuestions(){
 
             case "Add departments":
                 addDepartment();
+
+            case "Add roles":
+                addRole();
         }
     })
 }
@@ -78,7 +81,7 @@ function viewDep(){
     connection.query("SELECT * FROM department", function(err,result){
         if (err) throw err;
         for (var i = 0; i < result.length; i++){
-     console.table (result[i].department_name);
+     console.table (result[i].id + " " +result[i].department_name);
         }
     connection.end();
     })     
@@ -88,7 +91,7 @@ function viewRole(){
     connection.query("SELECT * FROM role", function(err,result){
         if (err) throw err;
         for (var i = 0; i < result.length; i++){
-     console.table (result[i].id + " " +result[i].title);
+     console.table (result[i].id + " " +result[i].title + " "+ result[i].salary);
         }
     connection.end();
     })     
@@ -153,4 +156,45 @@ function addDepartment(){
                 viewDep();
                 })
     });
+}
+
+function addRole(){
+    const role = inquirer.prompt([
+        {
+         name: "role_title",
+          message: "What is the title of the role?"
+        },
+        {
+          name: "salary",
+          message: "What is the Salary?"
+        }
+      ])
+      .then (answer => {
+        connection.query("SELECT * FROM department", function(err,result){
+            if (err) throw err;
+            var arr2 = [];
+          
+            for(var i = 0; i<result.length; i++){
+                 arr2.push(result[i].id+ " " +result[i].department_name)    
+            }
+        
+        inquirer.prompt ({
+            name: "depid",
+            type: "rawlist",
+            message: "Select the department",              
+            choices:  arr2
+            })
+
+            .then ( (dId) => {               
+                var depId =  parseInt(dId.depid.charAt(0))
+                var newSalary = parseInt(answer.salary)
+                connection.query("INSERT INTO role(title, salary, department_id) VALUES ('"+answer.role_title+"', '"+newSalary+"', "+depId+")" , 
+                function(err, result){
+                if (err) throw err;     
+                viewRole();
+                })
+            })
+        })     
+
+    })
 }
