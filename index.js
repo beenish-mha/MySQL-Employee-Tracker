@@ -39,8 +39,7 @@ function askQuestions(){
             "View departments",
             "View roles",
             "View employees",
-            "Update roles",
-            "Update employees",
+            "Update employees role",
         ]
     })
     .then (function(answer){
@@ -63,7 +62,7 @@ function askQuestions(){
             case "Add roles":
                 return addRole();
             
-            case "Update employees":
+            case "Update employees role":
                 return updateEmp();
         }
     })
@@ -214,29 +213,28 @@ function updateEmp(){
         })
         .then ( (eId) => {               
             var empId =  parseInt(eId.empid.charAt(0))
-            
-            inquirer.prompt([
-                {
-                    name: "first_name",
-                    message: "What is the First name?"
-                },
-                {
-                    name: "last_name",
-                    message: "What is the Last name?"
-                },
-                {
-                    name: "role_id",
-                    message: "Enter the Role-Id"
+            var rarr = []
+            connection.query("SELECT * FROM role", function(err,result){
+                if (err) throw err;
+               
+                for(var i = 0; i<result.length; i++){
+                     rarr.push(result[i].id+ " " +result[i].title)    
                 }
-
-              ])
+            
+            inquirer.prompt ({
+                name: "roleid",
+                type: "rawlist",
+                message: "Select the Role to update",              
+                choices:  rarr
+                })
                 .then ( (answers) => {
-                    const roId = parseInt(answers.role_id)
-                    connection.query(("UPDATE employee SET first_name = '"+answers.first_name+"', last_name = '"+answers.last_name+"', role_id = "+roId+" WHERE id = "+empId), 
+                    const roId = parseInt(answers.roleid.charAt(0))
+                    connection.query(("UPDATE employee SET role_id = "+roId+" WHERE id = "+empId), 
                      function(err, result){
                     if (err) throw err; 
-                    console.log(answers.first_name + " "+ answers.last_name +" updated");
+                   // console.log(answers.first_name + " "+ answers.last_name +" updated");
                     viewEmp();
+                     })
                 })
             })
             
