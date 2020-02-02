@@ -58,6 +58,9 @@ function askQuestions(){
 
             case "Add employees":
                 addEmp();
+
+            case "Add departments":
+                addDepartment();
         }
     })
 }
@@ -122,17 +125,32 @@ function addEmp(){
                 var roleId =  parseInt(rId.roleid.charAt(0))
                 connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ('"+answer.first_name+"', '"+answer.last_name+"', "+roleId+", null)" , 
                 function(err, result){
-                if (err) throw err;
-                //connection.end();
-            
+                if (err) throw err;     
                 viewEmp()
-        })
+                })
             })
-        
         })     
 
-          
-      })
-      
-    
+    })
+}
+
+function addDepartment(){
+
+    inquirer
+        .prompt([
+            {
+            name: "depName",
+            message: "Which Department you want to add?",
+            },
+        ])
+    .then(dName => {
+        const departmentName = dName.depName;
+
+        connection.query("INSERT INTO department(department_name) VALUES ('"+departmentName+"')" , 
+                function(err, result){
+                if (err) throw err;  
+                console.log (departmentName + " has been added below is the list of departments")   
+                viewDep();
+                })
+    });
 }
