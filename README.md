@@ -6,9 +6,9 @@ Employee Tracker : Build a solution for managing a company's employees using nod
 
 ---
 
-![screenshot of the app](images\employeeTracker1.jpg)
+![screenshot of the app](https://github.com/beenish-mha/MySQL-Employee-Tracker/blob/master/images/employeeTracker1.jpg)
 
-![screenshot of the app](images\employeeTracker2.jpg)
+![screenshot of the app](https://github.com/beenish-mha/MySQL-Employee-Tracker/blob/master/images/employeeTracker2.jpg)
 
 ---
 
