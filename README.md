@@ -1,31 +1,69 @@
-# MySQL-Employee-Tracker
+# Employee-Tracker
 
+## Description
 
-==>Why This project?
-    Employee Tracker :  I've build a solution for managing a company's employees using node, inquirer, and MySQL.
+Employee Tracker : Build a solution for managing a company's employees using node, inquirer, and MySQL. Created multiple functions to fulfill the request made by users and made it easy to operate.
 
-==>DataBase:
-    made my schema for employee_tracker database , where i  made 3 tables 
-    department( with 1 column department_name, where id id auto increment and is the primary key), 
-    role (with 3 column title, salary and department-id, with id as primary key and department_id is the foreign key) and
-    employee ( with 4 column first_name, last_name, role_id, manager_id with id as primary key and role_id is the foreign key)
+---
 
-==>Dependencies and connections:
-    my main programming portion was in index.js where i requirer 2 dependencies, inquirer and mysql
-    made connections with mysql 
+![screenshot of the app](images\employeeTracker1.jpg)
 
-==>Choices for users:
-    Give users multiple choices through inquirer.prompt to perform different function on the database
-    choices are:view Employees,
-                view Departments,
-                view Role,
-                Add Employee,
-                Add Department,
-                Add Role,
-                Update Employee role
+![screenshot of the app](images\employeeTracker2.jpg)
 
-==> functions:
-    Created multiple functions to fulfill the request made by users and made it easy to operate.
+---
 
+## How to use
 
- 
+node.js must be installed on your machine
+
+```
+$ node -v // v7.10.0
+```
+
+To install node follow this guide -
+https://nodejs.org/en/download/package-manager/#osx
+
+#### npm
+
+npm is required (any versions will work; v4.2.0 was used for this project)
+
+```
+$ npm -v // 4.2.0
+```
+
+To install npm follow this guide -
+https://docs.npmjs.com/getting-started/installing-node
+
+#### Install
+
+Clone the repo and install the app using this command
+
+```
+npm i
+```
+
+### Start the app
+
+```
+$ node index.js
+```
+
+---
+
+## Dependencies
+
+- Inquirer
+- MySQL
+
+---
+
+## Technologies used
+
+- Node and Express Web Server
+- MySQL
+
+## Author
+
+Beenish Butt
+
+https://beenish-mha.github.io/portfolio2/
